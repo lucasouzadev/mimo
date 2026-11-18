@@ -45,10 +45,13 @@ for major in 26 18; do
   for screen in "${SCREENS[@]}"; do
     xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID" \
       -screen "$screen" -AppleLanguages "(pt-BR)" -AppleLocale pt_BR
-    sleep 5
+    sleep 8
     xcrun simctl io "$UDID" screenshot "$OUT/ios$major-$screen.png"
     echo "captured ios$major-$screen.png"
   done
+
+  # Registros de travamento, se houver, para diagnóstico.
+  cp ~/Library/Logs/DiagnosticReports/Mimo* "$OUT/" 2>/dev/null || true
 
   xcrun simctl shutdown "$UDID" || true
   echo "::endgroup::"

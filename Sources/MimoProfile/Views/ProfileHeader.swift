@@ -56,10 +56,11 @@ struct ProfileHeader: View {
                 .foregroundStyle(profile.note.isEmpty ? MimoColor.textSecondary : MimoColor.textPrimary)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
+                .frame(maxWidth: 184)
+                .fixedSize(horizontal: true, vertical: false)
                 .padding(.horizontal, 18)
                 .padding(.top, 9)
                 .padding(.bottom, 9 + SpeechBubble.tailHeight)
-                .frame(maxWidth: 220)
                 .background(SpeechBubble().fill(MimoColor.surface))
                 .shadow(color: .black.opacity(0.08), radius: 8, y: 3)
         }

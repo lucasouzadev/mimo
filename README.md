@@ -31,6 +31,11 @@ Sources/MimoDesignSystem/
 │                  barra de progresso, cartão de ação, linha de preferência,
 │                  estado vazio, botão de copiar, alerta, contêiner de abas
 └── Previews/      MimoGallery: catálogo para o Canvas do Xcode
+
+Sources/MimoProfile/
+├── Model/         Wish, Profile, ChecklistStep, ProfileModel (+ dados de exemplo)
+├── Layout/        MasonryLayout: grade em alvenaria de 2 colunas
+└── Views/         ProfileScreen, cabeçalho, checklist, cartão de desejo
 ```
 
 ## Uso
@@ -71,6 +76,6 @@ O spec completo de UI/UX (telas, navegação, microinterações) está no docume
 ## Próximos passos
 
 - [ ] Abas de segmento (Preferências) e cabeçalho de coleção
-- [ ] Grade em alvenaria para a lista do perfil
+- [x] Grade em alvenaria para a lista do perfil
 - [ ] Avatar do usuário como ícone da aba Perfil
 - [ ] Testes de snapshot dos componentes nos dois visuais (iOS 18 e 26)

@@ -27,14 +27,19 @@ jobs:
           xcodebuild -version
           swift --version
 
-      - name: Build MimoDesignSystem
+      - name: Build packages
         run: |
           set -o pipefail
-          xcodebuild build \
-            -scheme MimoDesignSystem \
-            -destination 'generic/platform=iOS Simulator' \
-            -skipPackagePluginValidation \
-            | tee build.log
+          xcodebuild -list
+          for scheme in MimoDesignSystem MimoProfile; do
+            echo "::group::$scheme"
+            xcodebuild build \
+              -scheme "$scheme" \
+              -destination 'generic/platform=iOS Simulator' \
+              -skipPackagePluginValidation \
+              | tee -a build.log
+            echo "::endgroup::"
+          done
 
       - name: Upload build log
         if: always()

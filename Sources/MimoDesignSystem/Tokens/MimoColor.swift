@@ -31,7 +31,7 @@ public enum MimoColor {
     public static let darkSurface = Color(hex: 0x282322)
 }
 
-extension Color {
+public extension Color {
     init(hex: UInt32, opacity: Double = 1) {
         self.init(
             .sRGB,

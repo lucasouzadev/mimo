@@ -43,6 +43,7 @@ public struct MimoActionCard: View {
                 .mimoFont(.bodySecondary)
                 .foregroundStyle(MimoColor.textSecondary)
                 .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             Button(action: action) {
                 if isDone {
                     Label("Feito", systemImage: "checkmark")

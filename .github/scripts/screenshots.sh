@@ -43,7 +43,8 @@ for major in 26 18; do
   xcrun simctl install "$UDID" "$APP"
 
   for screen in "${SCREENS[@]}"; do
-    xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID" -screen "$screen"
+    xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID" \
+      -screen "$screen" -AppleLanguages "(pt-BR)" -AppleLocale pt_BR
     sleep 5
     xcrun simctl io "$UDID" screenshot "$OUT/ios$major-$screen.png"
     echo "captured ios$major-$screen.png"

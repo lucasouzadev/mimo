@@ -103,20 +103,20 @@ struct AddWishCard: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 8) {
-                Image(systemName: "plus")
-                    .font(.system(size: 22, weight: .medium))
-                Text("Desejo")
-                    .mimoFont(.body)
-                    .fontWeight(.medium)
-            }
-            .foregroundStyle(MimoColor.textPrimary)
-            .frame(maxWidth: .infinity)
-            .aspectRatio(163.0 / 150.0, contentMode: .fit)
-            .background(
-                MimoColor.fill,
-                in: RoundedRectangle(cornerRadius: MimoMetrics.imageRadius, style: .continuous)
-            )
+            MimoColor.fill
+                .aspectRatio(163.0 / 150.0, contentMode: .fit)
+                .clipShape(RoundedRectangle(cornerRadius: MimoMetrics.imageRadius, style: .continuous))
+                .overlay {
+                    VStack(spacing: 8) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 22, weight: .medium))
+                        Text("Desejo")
+                            .mimoFont(.body)
+                            .fontWeight(.medium)
+                    }
+                    .foregroundStyle(MimoColor.textPrimary)
+                }
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Adicionar desejo")

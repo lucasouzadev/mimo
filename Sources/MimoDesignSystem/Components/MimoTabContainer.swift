@@ -29,6 +29,7 @@ public struct MimoTabContainer<T: MimoTab, Content: View>: View {
                     }
                 }
             }
+            .tint(MimoColor.textPrimary)
         } else {
             TabView(selection: $selection) {
                 ForEach(T.allCases, id: \.self) { tab in

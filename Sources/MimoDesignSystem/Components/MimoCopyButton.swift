@@ -22,6 +22,8 @@ public struct MimoCopyButton: View {
         Button(action: copy) {
             HStack(spacing: 6) {
                 Text(copied ? copiedLabel : label)
+                    .lineLimit(1)
+                    .fixedSize()
                     .contentTransition(.opacity)
                 Image(systemName: copied ? "checkmark" : "doc.on.doc")
                     .contentTransition(.symbolEffect(.replace))

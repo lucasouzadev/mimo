@@ -61,6 +61,7 @@ struct RootView: View {
         case .wishes:
             model.checklist.map(\.id).forEach(model.completeStep)
         case .archive:
+            model.checklist.map(\.id).forEach(model.completeStep)
             model.filter = .archived
         case .profile, .gallery:
             break

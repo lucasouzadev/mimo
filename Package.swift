@@ -6,9 +6,11 @@ let package = Package(
     defaultLocalization: "pt",
     platforms: [.iOS(.v18)],
     products: [
-        .library(name: "MimoDesignSystem", targets: ["MimoDesignSystem"])
+        .library(name: "MimoDesignSystem", targets: ["MimoDesignSystem"]),
+        .library(name: "MimoProfile", targets: ["MimoProfile"])
     ],
     targets: [
-        .target(name: "MimoDesignSystem")
+        .target(name: "MimoDesignSystem"),
+        .target(name: "MimoProfile", dependencies: ["MimoDesignSystem"])
     ]
 )

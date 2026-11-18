@@ -11,10 +11,11 @@ public enum MimoColor {
     // Superfícies
     /// Branco quente: cartões de ação, campos, botão primário, alertas.
     public static let surface = Color(hex: 0xFDFBF9)
-    /// Bege um tom acima do fundo: botão secundário, chips, campos opcionais.
-    public static let fill = Color(hex: 0xE9DFC9)
-    /// Bege mais escuro: item ativo em segmentos e chips de valor.
-    public static let fillStrong = Color(hex: 0xDDD2BA)
+    /// Preto a 7%: escurece qualquer fundo (creme ou cartão branco) na medida certa.
+    /// Botão secundário, chips, campos opcionais, célula "+ Desejo".
+    public static let fill = Color.black.opacity(0.07)
+    /// Preto a 12%: item ativo em segmentos e chips de valor.
+    public static let fillStrong = Color.black.opacity(0.12)
 
     // Texto
     public static let textPrimary = Color(hex: 0x1A1512)
@@ -31,7 +32,7 @@ public enum MimoColor {
     public static let darkSurface = Color(hex: 0x282322)
 }
 
-extension Color {
+public extension Color {
     init(hex: UInt32, opacity: Double = 1) {
         self.init(
             .sRGB,

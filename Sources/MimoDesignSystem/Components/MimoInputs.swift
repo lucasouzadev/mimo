@@ -25,7 +25,7 @@ private struct MimoFieldModifier: ViewModifier {
         .frame(minHeight: MimoMetrics.fieldHeight)
         .background(
             prominence == .primary ? MimoColor.surface : MimoColor.fill,
-            in: Capsule()
+            in: RoundedRectangle(cornerRadius: MimoMetrics.buttonRadius, style: .continuous)
         )
     }
 }
@@ -40,6 +40,8 @@ public extension View {
 /// Chip em cápsula de 40 pt.
 public struct MimoChip: View {
     public enum Style: Sendable {
+        /// Abas de filtro: ativa com fundo bege escuro, as demais só texto cinza.
+        case segment
         /// Ativo em preto com texto branco: categorias do catálogo.
         case category
         /// Fundo bege, ativo em bege escuro: valores rápidos (R$ 25, R$ 50…).
@@ -76,6 +78,7 @@ public struct MimoChip: View {
     private var foreground: Color {
         switch (style, isSelected) {
         case (.category, true): .white
+        case (.segment, false): MimoColor.textSecondary
         default: MimoColor.textPrimary
         }
     }
@@ -83,7 +86,8 @@ public struct MimoChip: View {
     private var background: Color {
         switch (style, isSelected) {
         case (.category, true): MimoColor.textPrimary
-        case (.category, false): .clear
+        case (.category, false), (.segment, false): .clear
+        case (.segment, true): MimoColor.fillStrong
         case (.value, true): MimoColor.fillStrong
         case (.value, false): MimoColor.fill
         }

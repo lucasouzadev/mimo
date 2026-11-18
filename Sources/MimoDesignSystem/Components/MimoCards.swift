@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// Cartão de ação branco com ícone, título, texto e botão interno.
+/// Cartão de ação com ícone, título, texto e botão interno.
+/// Pendente: branco, com botão bege. Concluído: fundo esverdeado e botão verde.
 /// Usado no checklist "Ative sua lista" e nos avisos de recebimento.
 public struct MimoActionCard: View {
     private let icon: String
@@ -37,30 +38,39 @@ public struct MimoActionCard: View {
                 .contentTransition(.symbolEffect(.replace))
             Text(title)
                 .mimoFont(.body)
-                .fontWeight(.semibold)
+                .fontWeight(.medium)
                 .foregroundStyle(MimoColor.textPrimary)
             Text(message)
                 .mimoFont(.bodySecondary)
                 .foregroundStyle(MimoColor.textSecondary)
                 .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             Button(action: action) {
                 if isDone {
-                    Label("Feito", systemImage: "checkmark")
+                    HStack(spacing: 6) {
+                        Text("Feito")
+                        Image(systemName: "checkmark")
+                    }
                 } else {
                     Text(buttonTitle)
                 }
             }
             .buttonStyle(MimoButtonStyle(isDone ? .success : .secondary))
-            .disabled(isDone)
+            .allowsHitTesting(!isDone)
             .padding(.top, 8)
         }
         .padding(24)
         .frame(maxWidth: .infinity)
-        .background(
-            MimoColor.surface,
-            in: RoundedRectangle(cornerRadius: MimoMetrics.cardRadius, style: .continuous)
-        )
-        .mimoShadow()
+        .background {
+            let shape = RoundedRectangle(cornerRadius: MimoMetrics.cardRadius, style: .continuous)
+            if isDone {
+                shape.fill(MimoColor.fill)
+                    .overlay(shape.fill(MimoColor.success.opacity(0.10)))
+            } else {
+                shape.fill(MimoColor.surface)
+                    .mimoShadow()
+            }
+        }
     }
 }
 

@@ -9,6 +9,8 @@ public enum MimoTextStyle: Sendable {
     case collectionTitle
     /// 28 pt serifa — títulos de seção.
     case sectionTitle
+    /// 24 pt serifa — nome no perfil.
+    case profileName
     /// 26 pt serifa maiúscula — marca no detalhe do produto.
     case brand
     /// 17 pt sans medium — título de barra.
@@ -27,6 +29,7 @@ public enum MimoTextStyle: Sendable {
         case .display: 48
         case .collectionTitle: 30
         case .sectionTitle: 28
+        case .profileName: 24
         case .brand: 26
         case .navTitle, .body: 17
         case .bodySecondary: 15
@@ -44,7 +47,7 @@ public enum MimoTextStyle: Sendable {
 
     var design: Font.Design {
         switch self {
-        case .display, .collectionTitle, .sectionTitle, .brand: .serif
+        case .display, .collectionTitle, .sectionTitle, .profileName, .brand: .serif
         default: .default
         }
     }
@@ -53,7 +56,7 @@ public enum MimoTextStyle: Sendable {
         switch self {
         case .display: .largeTitle
         case .collectionTitle: .title
-        case .sectionTitle, .brand: .title2
+        case .sectionTitle, .profileName, .brand: .title2
         case .navTitle: .headline
         case .body: .body
         case .bodySecondary: .subheadline

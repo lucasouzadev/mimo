@@ -5,7 +5,7 @@ public enum MimoMetrics {
     public static let screenPadding: CGFloat = 24
     public static let gridSpacing: CGFloat = 10
 
-    public static let imageRadius: CGFloat = 16
+    public static let imageRadius: CGFloat = 20
     public static let cardRadius: CGFloat = 30
     public static let alertRadius: CGFloat = 32
 

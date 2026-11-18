@@ -24,11 +24,16 @@ public struct MimoTabContainer<T: MimoTab, Content: View>: View {
         if #available(iOS 26, *) {
             TabView(selection: $selection) {
                 ForEach(T.allCases, id: \.self) { tab in
-                    Tab(tab.title, systemImage: tab.systemImage, value: tab) {
+                    Tab(value: tab) {
                         content(tab)
+                    } label: {
+                        Image(systemName: tab.systemImage)
+                            .environment(\.symbolVariants, .none)
+                            .accessibilityLabel(tab.title)
                     }
                 }
             }
+            .tint(MimoColor.textPrimary)
         } else {
             TabView(selection: $selection) {
                 ForEach(T.allCases, id: \.self) { tab in
@@ -62,8 +67,8 @@ struct MimoFloatingTabBar<T: MimoTab>: View {
                     selection = tab
                 } label: {
                     Image(systemName: tab.systemImage)
-                        .symbolVariant(isActive ? .fill : .none)
-                        .font(.system(size: 19, weight: .medium))
+                        .symbolVariant(.none)
+                        .font(.system(size: 20, weight: .regular))
                         .foregroundStyle(MimoColor.textPrimary)
                         .frame(maxWidth: .infinity, minHeight: MimoMetrics.tabBarHeight - 8)
                         .background {

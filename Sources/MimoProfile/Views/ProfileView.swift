@@ -128,16 +128,18 @@ struct ProfileView: View {
                 sheet = .settings
             } label: {
                 Image(systemName: "gearshape")
+                    .frame(width: 28, height: 28)
             }
             .accessibilityLabel("Preferências")
 
             ShareLink(item: model.profile.publicURL) {
                 Image(systemName: "square.and.arrow.up")
+                    .frame(width: 28, height: 28)
             }
             .accessibilityLabel("Compartilhar lista")
         }
         .buttonStyle(.plain)
-        .font(.system(size: 21))
+        .font(.system(size: 20, weight: .regular))
         .foregroundStyle(MimoColor.textPrimary)
         .padding(.horizontal, MimoMetrics.screenPadding)
         .frame(height: 44)

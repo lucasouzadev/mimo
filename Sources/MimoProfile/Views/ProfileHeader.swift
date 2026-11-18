@@ -28,8 +28,13 @@ struct ProfileHeader: View {
                 )
 
                 if profile.showsBirthday, let birthday = profile.birthday {
-                    Label(birthday.formatted(.dateTime.day().month(.abbreviated)), systemImage: "birthday.cake")
-                        .mimoFont(.body)
+                    Label {
+                        Text(birthday.formatted(.dateTime.day().month(.abbreviated)))
+                    } icon: {
+                        Image(systemName: "birthday.cake")
+                            .imageScale(.small)
+                    }
+                    .mimoFont(.body)
                         .foregroundStyle(MimoColor.textSecondary)
                 }
             }

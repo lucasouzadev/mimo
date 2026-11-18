@@ -46,7 +46,9 @@ public struct MimoCopyButton: View {
                 Text(copied ? copiedLabel : label)
                     .lineLimit(1)
                     .contentTransition(.opacity)
-                Image(systemName: copied ? "checkmark" : "doc.on.doc")
+                Image(systemName: copied ? "checkmark" : "square.on.square")
+                    .imageScale(.small)
+                    .frame(width: 18)
                     .contentTransition(.symbolEffect(.replace))
             }
         }

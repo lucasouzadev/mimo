@@ -28,6 +28,7 @@ public struct MimoTabContainer<T: MimoTab, Content: View>: View {
                         content(tab)
                     } label: {
                         Image(systemName: tab.systemImage)
+                            .environment(\.symbolVariants, .none)
                             .accessibilityLabel(tab.title)
                     }
                 }
@@ -66,8 +67,8 @@ struct MimoFloatingTabBar<T: MimoTab>: View {
                     selection = tab
                 } label: {
                     Image(systemName: tab.systemImage)
-                        .symbolVariant(isActive ? .fill : .none)
-                        .font(.system(size: 19, weight: .medium))
+                        .symbolVariant(.none)
+                        .font(.system(size: 20, weight: .regular))
                         .foregroundStyle(MimoColor.textPrimary)
                         .frame(maxWidth: .infinity, minHeight: MimoMetrics.tabBarHeight - 8)
                         .background {

@@ -44,6 +44,10 @@ enum LaunchScreen: String {
     case archive
     /// Catálogo de componentes.
     case gallery
+    /// Perfil com o alerta "Recado para fãs" aberto.
+    case note
+    /// Perfil com o alerta "Marcar como realizado?" aberto.
+    case fulfill
 
     static var current: LaunchScreen {
         UserDefaults.standard.string(forKey: "screen").flatMap(LaunchScreen.init) ?? .profile
@@ -55,6 +59,14 @@ struct RootView: View {
     @State private var profileModel: ProfileModel
     private let screen = LaunchScreen.current
 
+    private var presentation: ProfilePresentation? {
+        switch screen {
+        case .note: .noteAlert
+        case .fulfill: .fulfillAlert
+        default: nil
+        }
+    }
+
     init() {
         let model = ProfileModel.sample()
         switch LaunchScreen.current {
@@ -63,6 +75,8 @@ struct RootView: View {
         case .archive:
             model.checklist.map(\.id).forEach(model.completeStep)
             model.filter = .archived
+        case .note, .fulfill:
+            model.checklist.map(\.id).forEach(model.completeStep)
         case .profile, .gallery:
             break
         }
@@ -76,7 +90,7 @@ struct RootView: View {
             MimoTabContainer(selection: $tab) { tab in
                 switch tab {
                 case .profile:
-                    ProfileScreen(model: profileModel)
+                    ProfileScreen(model: profileModel, presenting: presentation)
                 default:
                     MimoEmptyState(icon: tab.systemImage, title: tab.title, message: "Em construção")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)

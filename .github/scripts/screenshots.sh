@@ -6,7 +6,7 @@ set -euo pipefail
 APP="$1"
 OUT="$2"
 BUNDLE_ID="dev.lucasouza.mimo"
-SCREENS=(profile wishes archive gallery)
+SCREENS=(profile wishes archive note fulfill gallery)
 mkdir -p "$OUT"
 
 # Escolhe um iPhone (de preferência um Pro, não Max) no runtime mais novo de cada versão principal.

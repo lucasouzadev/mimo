@@ -24,8 +24,11 @@ public struct MimoTabContainer<T: MimoTab, Content: View>: View {
         if #available(iOS 26, *) {
             TabView(selection: $selection) {
                 ForEach(T.allCases, id: \.self) { tab in
-                    Tab(tab.title, systemImage: tab.systemImage, value: tab) {
+                    Tab(value: tab) {
                         content(tab)
+                    } label: {
+                        Image(systemName: tab.systemImage)
+                            .accessibilityLabel(tab.title)
                     }
                 }
             }

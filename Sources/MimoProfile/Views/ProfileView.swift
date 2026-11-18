@@ -4,17 +4,27 @@ import MimoDesignSystem
 import UIKit
 #endif
 
+/// Estado inicial opcional da tela, para previews e capturas de tela do CI.
+public enum ProfilePresentation: Sendable {
+    /// Alerta "Recado para fãs" aberto.
+    case noteAlert
+    /// Alerta "Marcar como realizado?" aberto.
+    case fulfillAlert
+}
+
 /// Aba Perfil: a lista de desejos do próprio usuário.
 public struct ProfileScreen: View {
     @State private var model: ProfileModel
+    private let presenting: ProfilePresentation?
 
-    public init(model: ProfileModel) {
+    public init(model: ProfileModel, presenting: ProfilePresentation? = nil) {
         _model = State(initialValue: model)
+        self.presenting = presenting
     }
 
     public var body: some View {
         NavigationStack {
-            ProfileView(model: model)
+            ProfileView(model: model, presenting: presenting)
         }
     }
 }
@@ -40,6 +50,7 @@ enum ProfileSheet: Identifiable, Hashable {
 
 struct ProfileView: View {
     @Bindable var model: ProfileModel
+    var presenting: ProfilePresentation?
 
     @State private var sheet: ProfileSheet?
     @State private var isEditingNote = false
@@ -74,22 +85,9 @@ struct ProfileView: View {
         }
         .scrollIndicators(.hidden)
         .mimoBackground()
-        .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                Button {
-                    sheet = .settings
-                } label: {
-                    Image(systemName: "gearshape")
-                }
-                .accessibilityLabel("Preferências")
-
-                ShareLink(item: model.profile.publicURL) {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                .accessibilityLabel("Compartilhar lista")
-            }
-        }
-        .toolbarBackground(.hidden, for: .navigationBar)
+        // Barra própria: ícones soltos, sem a cápsula de vidro da barra do sistema.
+        .toolbar(.hidden, for: .navigationBar)
+        .safeAreaInset(edge: .top, spacing: 0) { topBar }
         .tint(MimoColor.textPrimary)
         .animation(.snappy, value: model.isChecklistComplete)
         .sheet(item: $sheet) { sheet in
@@ -118,25 +116,55 @@ struct ProfileView: View {
                 model.markFulfilled(id, giftedBy: giftedByDraft)
             }
         }
+        .task { await presentInitialState() }
+    }
+
+    // MARK: Barra superior
+
+    private var topBar: some View {
+        HStack(spacing: 22) {
+            Spacer()
+            Button {
+                sheet = .settings
+            } label: {
+                Image(systemName: "gearshape")
+            }
+            .accessibilityLabel("Preferências")
+
+            ShareLink(item: model.profile.publicURL) {
+                Image(systemName: "square.and.arrow.up")
+            }
+            .accessibilityLabel("Compartilhar lista")
+        }
+        .buttonStyle(.plain)
+        .font(.system(size: 21))
+        .foregroundStyle(MimoColor.textPrimary)
+        .padding(.horizontal, MimoMetrics.screenPadding)
+        .frame(height: 44)
     }
 
     // MARK: Filtros
 
     private var filterBar: some View {
-        HStack(spacing: 8) {
+        // Sem itens arquivados, o filtro "Arquivo" some e sobra só a contagem.
+        let showsArchive = !model.archivedWishes.isEmpty || model.filter == .archived
+
+        return HStack(spacing: 8) {
             MimoChip(
                 model.activeWishes.count == 1 ? "1 desejo" : "\(model.activeWishes.count) desejos",
-                isSelected: model.filter == .active,
-                style: .value
+                isSelected: showsArchive && model.filter == .active,
+                style: .segment
             ) {
                 model.filter = .active
             }
-            MimoChip(
-                "Arquivo \(model.archivedWishes.count)",
-                isSelected: model.filter == .archived,
-                style: .value
-            ) {
-                model.filter = .archived
+            if showsArchive {
+                MimoChip(
+                    "Arquivo \(model.archivedWishes.count)",
+                    isSelected: model.filter == .archived,
+                    style: .segment
+                ) {
+                    model.filter = .archived
+                }
             }
             Spacer()
             Button {
@@ -254,6 +282,19 @@ struct ProfileView: View {
         )
     }
 
+    private func presentInitialState() async {
+        guard let presenting else { return }
+        try? await Task.sleep(for: .milliseconds(500))
+        switch presenting {
+        case .noteAlert:
+            noteDraft = model.profile.note
+            isEditingNote = true
+        case .fulfillAlert:
+            giftedByDraft = ""
+            fulfillTarget = model.activeWishes.first?.id
+        }
+    }
+
     private func copy(_ text: String) {
         #if canImport(UIKit)
         UIPasteboard.general.string = text
@@ -290,4 +331,8 @@ struct ComingSoonSheet: View {
     let model = ProfileModel.sample()
     model.filter = .archived
     return ProfileScreen(model: model)
+}
+
+#Preview("Perfil — recado") {
+    ProfileScreen(model: .sample(), presenting: .noteAlert)
 }

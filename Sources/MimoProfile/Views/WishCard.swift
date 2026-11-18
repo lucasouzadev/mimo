@@ -41,11 +41,12 @@ struct WishCard: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(wish.name)
-                    .mimoFont(.bodySecondary)
+                    .mimoFont(.body)
                     .foregroundStyle(MimoColor.textPrimary)
                     .lineLimit(2)
-                Text(wish.price, format: .currency(code: currencyCode))
-                    .mimoFont(.bodySecondary)
+                // Sem centavos quando o valor é inteiro: "R$ 2.499".
+                Text(wish.price, format: .currency(code: currencyCode).precision(.fractionLength(0...2)))
+                    .mimoFont(.body)
                     .foregroundStyle(MimoColor.textSecondary)
             }
 
@@ -56,14 +57,14 @@ struct WishCard: View {
         .contentShape(Rectangle())
     }
 
+    /// Selo cinza translúcido com ícone branco, no canto da foto.
     private func badge(systemImage: String) -> some View {
         Image(systemName: systemImage)
             .font(.system(size: 11, weight: .bold))
-            .foregroundStyle(MimoColor.textPrimary)
+            .foregroundStyle(.white)
             .frame(width: 26, height: 26)
-            .background(MimoColor.surface, in: Circle())
-            .mimoShadow()
-            .padding(8)
+            .background(Color.black.opacity(0.35), in: Circle())
+            .padding(10)
     }
 }
 
@@ -97,22 +98,21 @@ struct WishImage: View {
     }
 }
 
-/// Primeira célula da grade: abre o sheet de novo desejo.
+/// Primeira célula da grade: um quadrado bege com "+ Desejo" numa linha só.
 struct AddWishCard: View {
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             MimoColor.fill
-                .aspectRatio(163.0 / 150.0, contentMode: .fit)
+                .aspectRatio(1, contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: MimoMetrics.imageRadius, style: .continuous))
                 .overlay {
-                    VStack(spacing: 8) {
+                    HStack(spacing: 6) {
                         Image(systemName: "plus")
-                            .font(.system(size: 22, weight: .medium))
+                            .font(.system(size: 18))
                         Text("Desejo")
                             .mimoFont(.body)
-                            .fontWeight(.medium)
                     }
                     .foregroundStyle(MimoColor.textPrimary)
                 }

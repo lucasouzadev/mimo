@@ -81,7 +81,10 @@ private struct MimoAlertHost: View {
                     .submitLabel(.done)
                     .onSubmit(confirm)
                     .mimoField()
-                    .overlay(Capsule().stroke(MimoColor.accent, lineWidth: 2))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: MimoMetrics.buttonRadius, style: .continuous)
+                            .stroke(MimoColor.accent, lineWidth: 2)
+                    )
                     .padding(.top, 4)
             }
 

@@ -38,7 +38,10 @@ public struct MimoGallery: View {
                             .buttonStyle(.mimoCircle)
                         Button("Ver tudo →") {}
                             .buttonStyle(.mimoPill)
+                    }
+                    HStack(spacing: 16) {
                         MimoCopyButton("MIMO42", value: "MIMO42")
+                        MimoCopyButton("mimo.example/luca", value: "https://mimo.example/luca", copiedLabel: "Link copiado", style: .plain)
                     }
                 }
 

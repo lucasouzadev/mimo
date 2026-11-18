@@ -1,0 +1,40 @@
+name: Mimo
+
+options:
+  bundleIdPrefix: dev.lucasouza
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+
+packages:
+  MimoDesignSystem:
+    path: ..
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  Mimo:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+    dependencies:
+      - package: MimoDesignSystem
+        product: MimoDesignSystem
+      - package: MimoDesignSystem
+        product: MimoProfile
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: Mimo
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.lucasouza.mimo
+        TARGETED_DEVICE_FAMILY: "1"

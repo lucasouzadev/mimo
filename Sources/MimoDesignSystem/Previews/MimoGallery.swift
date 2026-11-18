@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Catálogo de componentes para conferir no Canvas do Xcode.
-struct MimoGallery: View {
+/// Catálogo de componentes, usado no Canvas do Xcode e nas capturas do CI.
+public struct MimoGallery: View {
     @State private var added = false
     @State private var category = "Roupas"
     @State private var quickValue = 100
@@ -9,7 +9,9 @@ struct MimoGallery: View {
     @State private var showNote = false
     @State private var note = ""
 
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 32) {
                 section("Tipografia") {
